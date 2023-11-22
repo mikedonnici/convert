@@ -71,6 +71,35 @@ func IsVolumeAreaRatioUnit(unit string) bool {
 	return IsVolumeUnit(n) && IsAreaUnit(d)
 }
 
+// IsDilutionRateUnit returns true if the compound unit looks like a dilution, ie volume|mass / volume|mass
+func IsDilutionRateUnit(unit string) bool {
+	n, d, err := splitCompoundUnit(unit)
+	if err != nil {
+		return false
+	}
+	return (IsVolumeUnit(n) || IsMassUnit(n)) && (IsVolumeUnit(d) || IsMassUnit(d))
+}
+
+// IsDilutionRateWithMassNumerator returns true if the compound unit looks like a dilution and has a mass numerator.
+// For example: g/kg or g/L
+func IsDilutionRateWithMassNumerator(unit string) bool {
+	n, d, err := splitCompoundUnit(unit)
+	if err != nil {
+		return false
+	}
+	return IsMassUnit(n) && (IsVolumeUnit(d) || IsMassUnit(d))
+}
+
+// IsDilutionRateWithVolumeNumerator returns true if the compound unit looks like a dilution and has a volume numerator.
+// For example: ml/L or mL/kg
+func IsDilutionRateWithVolumeNumerator(unit string) bool {
+	n, d, err := splitCompoundUnit(unit)
+	if err != nil {
+		return false
+	}
+	return IsVolumeUnit(n) && (IsVolumeUnit(d) || IsMassUnit(d))
+}
+
 // UnitFromLabel returns the standard unit for the given unit string.
 func UnitFromLabel(label string) (Unit, error) {
 	switch {
