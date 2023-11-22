@@ -40,6 +40,26 @@ func (u MassAreaRatioUnit) String() string {
 	}.String()
 }
 
+// massAreaRatioUnitByName attempts to derive a MassAreaRatioUnit from a string.
+func massAreaRatioUnitByName(s string) (MassAreaRatioUnit, error) {
+	n, d, err := splitCompoundUnit(s)
+	if err != nil {
+		return MassAreaRatioUnit{}, err
+	}
+	un, err := massUnitByName(n)
+	if err != nil {
+		return MassAreaRatioUnit{}, fmt.Errorf("numerator of compound unit %s (%s) is not a mass unit", s, n)
+	}
+	ud, err := areaUnitByName(d)
+	if err != nil {
+		return MassAreaRatioUnit{}, fmt.Errorf("denominator of compound unit %s (%s) is not an area unit", s, d)
+	}
+	return MassAreaRatioUnit{
+		Numerator:   un,
+		Denominator: ud,
+	}, nil
+}
+
 // MassPerAreaMeasurement represents a mass measurement per unit area
 type MassPerAreaMeasurement struct {
 	MassMeasurement

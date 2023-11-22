@@ -66,18 +66,6 @@ func Round(f float64, places int) float64 {
 	return math.Round(f*n) / n
 }
 
-//
-// // StandardLabel returns a 'standard' label for a unit string
-// func StandardLabel(unit string) (string, error) {
-// 	if unit == "" {
-// 		return "", nil
-// 	}
-// 	if enum := standardLabelFromMaps(unit); enum != nil {
-// 		return unit, nil
-// 	}
-// 	return "", fmt.Errorf("unknown unit label %s", unit)
-// }
-
 // convertAreaMeasurement converts an AreaMeasurement from one unit to another. Params fromUnit and toUnit can be
 // simple AreaMeasurement units such as ha or ac, or compound units such as kg/ha or lb1ac-1.
 func convertAreaMeasurement(areaValue float64, fromUnit string, toUnit string) (float64, error) {

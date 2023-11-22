@@ -188,3 +188,46 @@ func TestRatioUnit_String(t *testing.T) {
 		})
 	}
 }
+
+func TestStandardLabel(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		argList []string
+		want    string
+		wantErr bool
+	}{
+		"square metre": {
+			argList: []string{"m2", "m²", "m^2", "square metre", "square metres", "square meter"},
+			want:    "m2",
+		},
+		"hectare": {
+			argList: []string{"ha", "hectare", "hectares"},
+			want:    "ha",
+		},
+		"millimetre": {
+			argList: []string{"mm", "millimetre", "millimetres"},
+			want:    "mm",
+		},
+		"kilograms per hectare": {
+			argList: []string{"kg/ha", "kg1ha-1", "kilograms / hectare", "kilograms per hectare"},
+			want:    "kg1ha-1",
+		},
+		"litres per square metre": {
+			argList: []string{"l/m2", "l1[m2]-1", "litres per square metre"},
+			want:    "l1[m2]-1",
+		},
+	}
+
+	for name, c := range cases {
+		name, c := name, c
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			for _, arg := range c.argList {
+				got, err := StandardLabel(arg)
+				assert.Equal(t, c.wantErr, err != nil)
+				assert.Equal(t, c.want, got)
+			}
+		})
+	}
+}

@@ -72,38 +72,37 @@ func IsVolumeAreaRatioUnit(unit string) bool {
 }
 
 // UnitFromLabel returns the standard unit for the given unit string.
-func UnitFromLabel(unit string) (Unit, error) {
+func UnitFromLabel(label string) (Unit, error) {
 	switch {
-	case IsAreaUnit(unit):
-		return areaUnitByName(unit)
-	case IsLineUnit(unit):
-		return lineUnitByName(unit)
-	case IsMassUnit(unit):
-		return massUnitByName(unit)
-	case IsTimeUnit(unit):
-		return timeUnitByName(unit)
-	case IsVolumeUnit(unit):
-		return volumeUnitByName(unit)
-	// case IsMassAreaRatioUnit(unit):
-	// 	// an arbitrary conversion from/to the same unit should yield the standard unit in the response
-	// 	au, err := areaUnitByName(unit)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
-	// 	u, err := MassPerAreaMeasurement{
-	// 		MassMeasurement: MassMeasurement{Unit: Gram},
-	// 		unitArea:        au,
-	// 	}.Unit()
-	// 	m, err := ValueFromTo(1, u, u)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
-	// 	return m.Unit(), nil
-	// case IsVolumeAreaRatioUnit(unit):
-	// 	return volumeAreaUnitByName(unit)
+	case IsAreaUnit(label):
+		return areaUnitByName(label)
+	case IsLineUnit(label):
+		return lineUnitByName(label)
+	case IsMassUnit(label):
+		return massUnitByName(label)
+	case IsTimeUnit(label):
+		return timeUnitByName(label)
+	case IsVolumeUnit(label):
+		return volumeUnitByName(label)
+	case IsMassAreaRatioUnit(label):
+		return massAreaRatioUnitByName(label)
+	case IsVolumeAreaRatioUnit(label):
+		return volumeAreaRatioUnitByName(label)
 	default:
-		return nil, fmt.Errorf("unknown unit: %s", unit)
+		return nil, fmt.Errorf("unknown unit: %s", label)
 	}
+}
+
+// StandardLabel returns a 'standard' label for the specified unit label
+func StandardLabel(label string) (string, error) {
+	if label == "" {
+		return "", nil
+	}
+	u, err := UnitFromLabel(label)
+	if err != nil {
+		return "", fmt.Errorf("failed to get unit from label %s: %w", label, err)
+	}
+	return u.String(), nil
 }
 
 // wrapUnitWithExponent wraps the unit string with square brackets if it ends with a '2' or '3' or if it has a space.

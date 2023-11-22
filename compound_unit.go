@@ -30,6 +30,9 @@ func splitCompoundUnit(unit string) (string, string, error) {
 	if strings.Contains(unit, "/") {
 		return splitCompoundUnitSlashForm(unit)
 	}
+	if strings.Contains(unit, "per") {
+		return splitCompoundUnitPerForm(unit)
+	}
 	return "", "", fmt.Errorf("splitCompoundUnit() expects Unit string in exponent form (eg kg1ha-1) or slash form (eg kg/ha), got %s", unit)
 }
 
@@ -56,6 +59,24 @@ func splitCompoundUnitExponentForm(unit string) (string, string, error) {
 
 func splitCompoundUnitSlashForm(unit string) (string, string, error) {
 	xs := strings.Split(unit, "/")
+	if len(xs) != 2 {
+		return "", "", fmt.Errorf("compound Unit %s split into %d parts, should be 2", unit, len(xs))
+	}
+
+	n := strings.ToLower(strings.TrimSpace(xs[0]))
+	d := strings.ToLower(strings.TrimSpace(xs[1]))
+
+	if !IsVolumeUnit(n) && !IsMassUnit(n) {
+		return "", "", fmt.Errorf("invalid MassMeasurement or volume Unit: %s", n)
+	}
+	if !IsAreaUnit(d) {
+		return "", "", fmt.Errorf("invalid AreaMeasurement Unit: %s", d)
+	}
+	return n, d, nil
+}
+
+func splitCompoundUnitPerForm(unit string) (string, string, error) {
+	xs := strings.Split(unit, "per")
 	if len(xs) != 2 {
 		return "", "", fmt.Errorf("compound Unit %s split into %d parts, should be 2", unit, len(xs))
 	}

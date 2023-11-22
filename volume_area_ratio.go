@@ -44,6 +44,26 @@ func (u VolumeAreaRatioUnit) String() string {
 	}.String()
 }
 
+// volumeAreaRatioUnitByName attempts to derive a VolumeAreaRatioUnit from a string.
+func volumeAreaRatioUnitByName(s string) (VolumeAreaRatioUnit, error) {
+	n, d, err := splitCompoundUnit(s)
+	if err != nil {
+		return VolumeAreaRatioUnit{}, err
+	}
+	un, err := volumeUnitByName(n)
+	if err != nil {
+		return VolumeAreaRatioUnit{}, fmt.Errorf("numerator of compound unit %s (%s) is not a volume unit", s, n)
+	}
+	ud, err := areaUnitByName(d)
+	if err != nil {
+		return VolumeAreaRatioUnit{}, fmt.Errorf("denominator of compound unit %s (%s) is not an area unit", s, d)
+	}
+	return VolumeAreaRatioUnit{
+		Numerator:   un,
+		Denominator: ud,
+	}, nil
+}
+
 // VolumePerAreaMeasurement represents a volume over AreaMeasurement Value.
 type VolumePerAreaMeasurement struct {
 	VolumeMeasurement

@@ -108,3 +108,50 @@ func Test_massRateTo(t *testing.T) {
 		})
 	}
 }
+
+func Test_massRateUnitByName(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		argList    []string
+		wantUnit   MassAreaRatioUnit
+		wantString string
+		wantErr    bool
+	}{
+		"kilograms per hectare": {
+			argList: []string{"kg/ha", "kg1ha-1"},
+			wantUnit: MassAreaRatioUnit{
+				Numerator:   Kilogram,
+				Denominator: Hectare,
+			},
+			wantString: "kg1ha-1",
+			wantErr:    false,
+		},
+		"pounds per acre": {
+			argList: []string{"lb/ac", "lb1ac-1"},
+			wantUnit: MassAreaRatioUnit{
+				Numerator:   Pound,
+				Denominator: Acre,
+			},
+			wantString: "lb1ac-1",
+			wantErr:    false,
+		},
+		"no match": {
+			argList:  []string{"a", "b", "c"},
+			wantUnit: MassAreaRatioUnit{},
+			wantErr:  true,
+		},
+	}
+
+	for name, c := range cases {
+		c := c
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			for _, arg := range c.argList {
+				gotUnit, err := massAreaRatioUnitByName(arg)
+				assert.Equal(t, c.wantErr, err != nil)
+				assert.Equal(t, c.wantUnit, gotUnit)
+			}
+		})
+	}
+}

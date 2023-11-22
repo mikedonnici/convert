@@ -35,3 +35,53 @@ func TestNewVolumeAreaMeasurementFromUnitString(t *testing.T) {
 		})
 	}
 }
+
+func Test_volumeAreaRatioUnitByName(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		argList    []string
+		wantUnit   VolumeAreaRatioUnit
+		wantString string
+		wantErr    bool
+	}{
+		"litres per square metre": {
+			argList: []string{"l/m2", "l1[m2]-1"},
+			wantUnit: VolumeAreaRatioUnit{
+				Numerator:   Litre,
+				Denominator: SquareMetre,
+			},
+			wantString: "l1[m2]-1",
+			wantErr:    false,
+		},
+		"fluid ounces per square foot": {
+			argList: []string{"floz/ft2", "floz1[ft2]-1"},
+			wantUnit: VolumeAreaRatioUnit{
+				Numerator:   FluidOunce,
+				Denominator: SquareFoot,
+			},
+			wantString: "floz1[ft2]-1",
+			wantErr:    false,
+		},
+		"no match": {
+			argList:  []string{"a", "b", "c"},
+			wantUnit: VolumeAreaRatioUnit{},
+			wantErr:  true,
+		},
+	}
+
+	for name, c := range cases {
+		c := c
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			for _, arg := range c.argList {
+				gotUnit, err := volumeAreaRatioUnitByName(arg)
+				assert.Equal(t, c.wantErr, err != nil)
+				if !c.wantErr && err == nil {
+					assert.Equal(t, c.wantUnit, gotUnit)
+					assert.Equal(t, c.wantString, gotUnit.String())
+				}
+			}
+		})
+	}
+}
