@@ -220,7 +220,7 @@ var FluidOunce = VolumeUnit{
 	full:       "fluid ounce",
 	fancy:      string(FluidOunceStandard),
 	aliases:    []string{"fl oz", "us fl oz", "us-fluid-ounce", "us fluid ounce", "us fluid ounces", "fluid ounce", "fluid ounces"},
-	conversion: 0.0284131,
+	conversion: 0.0295735,
 }
 
 var Quart = VolumeUnit{
