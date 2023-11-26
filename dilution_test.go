@@ -93,6 +93,19 @@ func TestDilutionRate(t *testing.T) {
 			wantUnit:  "g1ha-1",
 			wantErr:   false,
 		},
+		"250g per hectolitre applied at 150l per ha": {
+			dpa: DilutedProductApplication{
+				ProductAmount:               250,
+				ProductUnitLabel:            "g",
+				CarrierSolventUnitLabel:     "100l",
+				CarrierApplicationAmount:    150,
+				CarrierApplicationUnitLabel: "l",
+				AreaUnitLabel:               "ha",
+			},
+			wantValue: 375,
+			wantUnit:  "g1ha-1",
+			wantErr:   false,
+		},
 		"cannot convert solvent litres to application kg": {
 			dpa: DilutedProductApplication{
 				ProductAmount:               1,

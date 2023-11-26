@@ -65,20 +65,20 @@ func (d *DilutedProductApplication) UnitCheck() error {
 	// CarrierSolventUnit and CarrierApplicationUnit both need to be the same type - ie, either mass or volume.
 	// Eg: 10g/kg dilution spread at 50kg/ha makes sense, but 10g/l dilution spread at 10kg/ha cannot be resolved without
 	// knowing density.
+	if !IsMassUnit(d.CarrierSolventUnitLabel) && !IsVolumeUnit(d.CarrierSolventUnitLabel) {
+		return fmt.Errorf("carrier (solvent) unit %s is not a mass or volume unit", d.CarrierSolventUnitLabel)
+	}
 	d.carrierSolventUnit, err = UnitFromLabel(d.CarrierSolventUnitLabel)
 	if err != nil {
 		return fmt.Errorf("invalid carrier (solvent) unit: %s", d.CarrierSolventUnitLabel)
 	}
-	if !IsMassUnit(d.CarrierSolventUnitLabel) && !IsVolumeUnit(d.CarrierSolventUnitLabel) {
-		return fmt.Errorf("carrier (solvent) unit %s is not a mass or volume unit", d.CarrierSolventUnitLabel)
-	}
 
+	if !IsMassUnit(d.CarrierApplicationUnitLabel) && !IsVolumeUnit(d.CarrierApplicationUnitLabel) {
+		return fmt.Errorf("carrier (application) unit %s is not a mass or volume unit", d.CarrierApplicationUnitLabel)
+	}
 	d.carrierApplicationUnit, err = UnitFromLabel(d.CarrierApplicationUnitLabel)
 	if err != nil {
 		return fmt.Errorf("invalid carrier (application) unit: %s", d.CarrierApplicationUnitLabel)
-	}
-	if !IsMassUnit(d.CarrierApplicationUnitLabel) && !IsVolumeUnit(d.CarrierApplicationUnitLabel) {
-		return fmt.Errorf("carrier (application) unit %s is not a mass or volume unit", d.CarrierSolventUnitLabel)
 	}
 
 	// Final check is that the carrier (solvent) unit and the carrier (application) unit are the same type.

@@ -20,6 +20,11 @@ func Test_volumeUnitByName(t *testing.T) {
 			wantUnit: Litre,
 			wantErr:  false,
 		},
+		"hl": {
+			argList:  []string{"hl", "hectolitre", "100l", "100 litres"},
+			wantUnit: Hectolitre,
+			wantErr:  false,
+		},
 		"no match": {
 			argList:  []string{"a", "b", "c"},
 			wantUnit: VolumeUnit{},
