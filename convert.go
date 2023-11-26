@@ -66,6 +66,11 @@ func Round(f float64, places int) float64 {
 	return math.Round(f*n) / n
 }
 
+// SplitCompoundUnit splits a compound unit into its numerator and denominator units.
+func SplitCompoundUnit(unit string) (string, string, error) {
+	return splitCompoundUnit(unit)
+}
+
 // convertAreaMeasurement converts an AreaMeasurement from one unit to another. Params fromUnit and toUnit can be
 // simple AreaMeasurement units such as ha or ac, or compound units such as kg/ha or lb1ac-1.
 func convertAreaMeasurement(areaValue float64, fromUnit string, toUnit string) (float64, error) {
