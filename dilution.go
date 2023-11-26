@@ -11,7 +11,6 @@ import (
 type DilutedProductApplication struct {
 	ProductAmount               float64 // eg 10
 	ProductUnitLabel            string  // eg grams
-	CarrierSolventAmount        float64 // eg 1
 	CarrierSolventUnitLabel     string  // eg litres
 	CarrierApplicationAmount    float64 // eg 100
 	CarrierApplicationUnitLabel string  // eg litres
@@ -30,10 +29,7 @@ func (d *DilutedProductApplication) ApplicationRate() (float64, string, error) {
 	}
 
 	// Product in one unit of solvent
-	var p1 float64
-	if d.CarrierSolventAmount > 0 {
-		p1 = d.ProductAmount / d.CarrierSolventAmount
-	}
+	p1 := d.ProductAmount
 
 	// Convert the application amount to the solvent unit
 	p2, err := ValueFromTo(d.CarrierApplicationAmount, d.CarrierApplicationUnitLabel, d.CarrierSolventUnitLabel)

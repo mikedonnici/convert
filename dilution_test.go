@@ -19,7 +19,6 @@ func TestDilutionRate(t *testing.T) {
 			dpa: DilutedProductApplication{
 				ProductAmount:               0,
 				ProductUnitLabel:            "g",
-				CarrierSolventAmount:        0,
 				CarrierSolventUnitLabel:     "l",
 				CarrierApplicationAmount:    0,
 				CarrierApplicationUnitLabel: "l",
@@ -33,7 +32,6 @@ func TestDilutionRate(t *testing.T) {
 			dpa: DilutedProductApplication{
 				ProductAmount:               1,
 				ProductUnitLabel:            "g",
-				CarrierSolventAmount:        1,
 				CarrierSolventUnitLabel:     "l",
 				CarrierApplicationAmount:    1,
 				CarrierApplicationUnitLabel: "l",
@@ -43,17 +41,16 @@ func TestDilutionRate(t *testing.T) {
 			wantUnit:  "g1ha-1",
 			wantErr:   false,
 		},
-		"1g per 10l applied at 100l per ha": {
+		"1g per l applied at 100l per ha": {
 			dpa: DilutedProductApplication{
 				ProductAmount:               1,
 				ProductUnitLabel:            "g",
-				CarrierSolventAmount:        10,
 				CarrierSolventUnitLabel:     "l",
 				CarrierApplicationAmount:    100,
 				CarrierApplicationUnitLabel: "l",
 				AreaUnitLabel:               "ha",
 			},
-			wantValue: 10,
+			wantValue: 100,
 			wantUnit:  "g1ha-1",
 			wantErr:   false,
 		},
@@ -61,7 +58,6 @@ func TestDilutionRate(t *testing.T) {
 			dpa: DilutedProductApplication{
 				ProductAmount:               15,
 				ProductUnitLabel:            "g",
-				CarrierSolventAmount:        1,
 				CarrierSolventUnitLabel:     "l",
 				CarrierApplicationAmount:    150,
 				CarrierApplicationUnitLabel: "l",
@@ -75,7 +71,6 @@ func TestDilutionRate(t *testing.T) {
 			dpa: DilutedProductApplication{
 				ProductAmount:               15,
 				ProductUnitLabel:            "ml",
-				CarrierSolventAmount:        1,
 				CarrierSolventUnitLabel:     "l",
 				CarrierApplicationAmount:    150,
 				CarrierApplicationUnitLabel: "l",
@@ -85,17 +80,16 @@ func TestDilutionRate(t *testing.T) {
 			wantUnit:  "ml1ha-1",
 			wantErr:   false,
 		},
-		"250g per 10 kg applied at 1.5t per ha": {
+		"250g per kg applied at 1.5t per ha": {
 			dpa: DilutedProductApplication{
 				ProductAmount:               250,
 				ProductUnitLabel:            "g",
-				CarrierSolventAmount:        10,
 				CarrierSolventUnitLabel:     "kg",
 				CarrierApplicationAmount:    1.5,
 				CarrierApplicationUnitLabel: "t",
 				AreaUnitLabel:               "ha",
 			},
-			wantValue: 37500,
+			wantValue: 375000,
 			wantUnit:  "g1ha-1",
 			wantErr:   false,
 		},
@@ -103,7 +97,6 @@ func TestDilutionRate(t *testing.T) {
 			dpa: DilutedProductApplication{
 				ProductAmount:               1,
 				ProductUnitLabel:            "kg",
-				CarrierSolventAmount:        1,
 				CarrierSolventUnitLabel:     "l",
 				CarrierApplicationAmount:    100,
 				CarrierApplicationUnitLabel: "kg",
