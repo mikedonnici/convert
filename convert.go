@@ -123,10 +123,10 @@ func convertLineMeasurement(value float64, fromUnit, toUnit string) (float64, er
 
 // convertMassMeasurement converts a MassMeasurement from one unit To another. Params fromUnit and toUnit can be
 // simple MassMeasurement units such as lb or kg, or compound units such as kg/ha or lb1ac-1.
-func convertMassMeasurement(massValue float64, fromUnit, toUnit string) (float64, error) {
+func convertMassMeasurement(value float64, fromUnit, toUnit string) (float64, error) {
 	// Nothing To do
 	if fromUnit == toUnit {
-		return massValue, nil
+		return value, nil
 	}
 	var err error
 	// Get the MassMeasurement Unit from compound units
@@ -151,13 +151,49 @@ func convertMassMeasurement(massValue float64, fromUnit, toUnit string) (float64
 		return 0, fmt.Errorf("toUnit %s is not a MassUnit", toUnit)
 	}
 	m := MassMeasurement{
-		Value: massValue,
+		Value: value,
 		Unit:  from,
 	}
 	return m.To(to).Value, nil
 }
 
-// convertMassAreaMeasurement converts the value of a MassPerAreaMeasurement (mass / area) between units.
+// convertVolumeMeasurement converts a VolumeMeasurement from one unit To another. Params fromUnit and toUnit can be
+// simple VolumeMeasurement units such as floz of l, or compound units such as floz/ac or l1ha-1.
+func convertVolumeMeasurement(value float64, fromUnit, toUnit string) (float64, error) {
+	// Nothing To do
+	if fromUnit == toUnit {
+		return value, nil
+	}
+	var err error
+	// Get the VolumeMeasurement Unit from compound units
+	if maybeCompoundUnit(fromUnit) {
+		fromUnit, _, err = splitCompoundUnit(fromUnit)
+		if err != nil {
+			return 0, fmt.Errorf("could not split fromUnit as compound Unit: %s", err)
+		}
+	}
+	if maybeCompoundUnit(toUnit) {
+		toUnit, _, err = splitCompoundUnit(toUnit)
+		if err != nil {
+			return 0, fmt.Errorf("could not split toUnit as compound Unit: %s", err)
+		}
+	}
+	from, err := volumeUnitByName(fromUnit)
+	if err != nil {
+		return 0, fmt.Errorf("fromUnit %s is not a VolumeUnit", fromUnit)
+	}
+	to, err := volumeUnitByName(toUnit)
+	if err != nil {
+		return 0, fmt.Errorf("toUnit %s is not a VolumeUnit", toUnit)
+	}
+	m := VolumeMeasurement{
+		Value: value,
+		Unit:  from,
+	}
+	return m.To(to).Value, nil
+}
+
+// convertMassAreaMeasurement converts the value of a MassAreaRatioMeasure (mass / area) between units.
 // The params fromCompoundUnit and toCompoundUnit can be specified using 'exponent' format, eg kg1ha-1, l1ac-1,
 // or 'slash' format, eg kg/ha, l/ac.
 func convertMassAreaMeasurement(value float64, fromUnit, toUnit string) (float64, error) {
@@ -182,11 +218,11 @@ func convertMassAreaMeasurement(value float64, fromUnit, toUnit string) (float64
 		return 0, fmt.Errorf("toUnit %s does not have an area denominator", toUnit)
 	}
 
-	mam := NewMassPerAreaMeasurement(value, fromMassUnit, fromAreaUnit)
+	mam := NewMassAreaRatioMeasure(value, fromMassUnit, fromAreaUnit)
 	return mam.To(toMassUnit, toAreaUnit).Value(), nil
 }
 
-// convertVolumeAreaMeasurement converts the value of a VolumePerAreaMeasurement (volume/area) between units.
+// convertVolumeAreaMeasurement converts the value of a VolumeAreaRatioMeasurement (volume/area) between units.
 // The params fromCompoundUnit and toCompoundUnit can be specified using 'exponent' format, eg kg1ha-1, l1ac-1,
 // or 'slash' format, eg kg/ha, l/ac.
 func convertVolumeAreaMeasurement(value float64, fromUnit, toUnit string) (float64, error) {
@@ -224,6 +260,8 @@ func conversionFunc(unit1, unit2 string) func(float64, string, string) (float64,
 		return convertLineMeasurement
 	case IsMassUnit(unit1) && IsMassUnit(unit2):
 		return convertMassMeasurement
+	case IsVolumeUnit(unit1) && IsVolumeUnit(unit2):
+		return convertVolumeMeasurement
 	case IsMassAreaRatioUnit(unit1) && IsMassAreaRatioUnit(unit2):
 		return convertMassAreaMeasurement
 	case IsVolumeAreaRatioUnit(unit1) && IsVolumeAreaRatioUnit(unit2):

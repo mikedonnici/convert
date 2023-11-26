@@ -60,15 +60,15 @@ func massAreaRatioUnitByName(s string) (MassAreaRatioUnit, error) {
 	}, nil
 }
 
-// MassPerAreaMeasurement represents a mass measurement per unit area
-type MassPerAreaMeasurement struct {
+// MassAreaRatioMeasure represents a mass measurement per unit area
+type MassAreaRatioMeasure struct {
 	MassMeasurement
 	unitArea AreaUnit
 }
 
-// NewMassPerAreaMeasurement creates a new MassPerAreaMeasurement with the specified value and units.
-func NewMassPerAreaMeasurement(v float64, mu MassUnit, au AreaUnit) MassPerAreaMeasurement {
-	return MassPerAreaMeasurement{
+// NewMassAreaRatioMeasure creates a new MassAreaRatioMeasure with the specified value and units.
+func NewMassAreaRatioMeasure(v float64, mu MassUnit, au AreaUnit) MassAreaRatioMeasure {
+	return MassAreaRatioMeasure{
 		MassMeasurement: MassMeasurement{
 			Value: v,
 			Unit:  mu,
@@ -77,41 +77,41 @@ func NewMassPerAreaMeasurement(v float64, mu MassUnit, au AreaUnit) MassPerAreaM
 	}
 }
 
-// NewMassPerAreaMeasurementFromUnitString creates a new MassPerAreaMeasurement with the specified value and compound unit.
-func NewMassPerAreaMeasurementFromUnitString(v float64, compoundUnit string) (MassPerAreaMeasurement, error) {
+// NewMassAreaRatioMeasureFromUnitString creates a new MassAreaRatioMeasure with the specified value and compound unit.
+func NewMassAreaRatioMeasureFromUnitString(v float64, compoundUnit string) (MassAreaRatioMeasure, error) {
 	n, d, err := splitCompoundUnit(compoundUnit)
 	if err != nil {
-		return MassPerAreaMeasurement{}, err
+		return MassAreaRatioMeasure{}, err
 	}
 	un, err := massUnitByName(n)
 	if err != nil {
-		return MassPerAreaMeasurement{}, fmt.Errorf("numerator of compound unit %s (%s) is not a MassUnit", compoundUnit, n)
+		return MassAreaRatioMeasure{}, fmt.Errorf("numerator of compound unit %s (%s) is not a MassUnit", compoundUnit, n)
 	}
 	ud, err := areaUnitByName(d)
 	if err != nil {
-		return MassPerAreaMeasurement{}, fmt.Errorf("denominator of compound unit %s (%s) is not an AreaUnit", compoundUnit, d)
+		return MassAreaRatioMeasure{}, fmt.Errorf("denominator of compound unit %s (%s) is not an AreaUnit", compoundUnit, d)
 	}
-	return NewMassPerAreaMeasurement(v, un, ud), nil
+	return NewMassAreaRatioMeasure(v, un, ud), nil
 }
 
-// To converts the MassPerAreaMeasurement to the specified mass and area units
-func (mr MassPerAreaMeasurement) To(toMassUnit MassUnit, toAreaUnit AreaUnit) MassPerAreaMeasurement {
+// To converts the MassAreaRatioMeasure to the specified mass and area units
+func (mr MassAreaRatioMeasure) To(toMassUnit MassUnit, toAreaUnit AreaUnit) MassAreaRatioMeasure {
 	toMass := mr.MassMeasurement.To(toMassUnit)
 	toArea := AreaMeasurement{Value: 1, Unit: mr.unitArea}.To(toAreaUnit)
 	toMass.Value = toMass.Value / toArea.Value
-	return MassPerAreaMeasurement{
+	return MassAreaRatioMeasure{
 		MassMeasurement: toMass,
 		unitArea:        toAreaUnit,
 	}
 }
 
-// Value returns the value of the MassPerAreaMeasurement
-func (mr MassPerAreaMeasurement) Value() float64 {
+// Value returns the value of the MassAreaRatioMeasure
+func (mr MassAreaRatioMeasure) Value() float64 {
 	return mr.MassMeasurement.Value
 }
 
-// Unit returns the unit of the MassPerAreaMeasurement
+// Unit returns the unit of the MassAreaRatioMeasure
 // TODO: this should return a compound unit
-func (mr MassPerAreaMeasurement) Unit() (string, error) {
+func (mr MassAreaRatioMeasure) Unit() (string, error) {
 	return joinCompoundUnit(mr.MassMeasurement.Unit.String(), mr.unitArea.standard.String())
 }

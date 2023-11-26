@@ -46,14 +46,17 @@ func splitCompoundUnitExponentForm(unit string) (string, string, error) {
 	// Units with an exponent will generally be enclosed in square brackets which need To be removed.
 	// For example [m3]1[m2]-1 (cubic metres per square metre) should return "m3" and "m3"
 	n := strings.ToLower(strings.TrimSpace(strings.TrimRight(strings.TrimLeft(xs[0], "["), "]")))
-	d := strings.ToLower(strings.TrimSpace(strings.TrimRight(strings.TrimLeft(xs[1], "["), "]")))
+	_, err := UnitFromLabel(n)
+	if err != nil {
+		return "", "", fmt.Errorf("invalid numerator unit: %s", n)
+	}
 
-	if !IsVolumeUnit(n) && !IsMassUnit(n) {
-		return "", "", fmt.Errorf("invalid MassMeasurement or volume Unit: %s", n)
+	d := strings.ToLower(strings.TrimSpace(strings.TrimRight(strings.TrimLeft(xs[1], "["), "]")))
+	_, err = UnitFromLabel(d)
+	if err != nil {
+		return "", "", fmt.Errorf("invalid denominator unit: %s", d)
 	}
-	if !IsAreaUnit(d) {
-		return "", "", fmt.Errorf("invalid AreaMeasurement Unit: %s", d)
-	}
+
 	return n, d, nil
 }
 
@@ -64,14 +67,17 @@ func splitCompoundUnitSlashForm(unit string) (string, string, error) {
 	}
 
 	n := strings.ToLower(strings.TrimSpace(xs[0]))
-	d := strings.ToLower(strings.TrimSpace(xs[1]))
+	_, err := UnitFromLabel(n)
+	if err != nil {
+		return "", "", fmt.Errorf("invalid numerator unit: %s", n)
+	}
 
-	if !IsVolumeUnit(n) && !IsMassUnit(n) {
-		return "", "", fmt.Errorf("invalid MassMeasurement or volume Unit: %s", n)
+	d := strings.ToLower(strings.TrimSpace(xs[1]))
+	_, err = UnitFromLabel(d)
+	if err != nil {
+		return "", "", fmt.Errorf("invalid denominator unit: %s", d)
 	}
-	if !IsAreaUnit(d) {
-		return "", "", fmt.Errorf("invalid AreaMeasurement Unit: %s", d)
-	}
+
 	return n, d, nil
 }
 
@@ -82,14 +88,17 @@ func splitCompoundUnitPerForm(unit string) (string, string, error) {
 	}
 
 	n := strings.ToLower(strings.TrimSpace(xs[0]))
-	d := strings.ToLower(strings.TrimSpace(xs[1]))
+	_, err := UnitFromLabel(n)
+	if err != nil {
+		return "", "", fmt.Errorf("invalid numerator unit: %s", n)
+	}
 
-	if !IsVolumeUnit(n) && !IsMassUnit(n) {
-		return "", "", fmt.Errorf("invalid MassMeasurement or volume Unit: %s", n)
+	d := strings.ToLower(strings.TrimSpace(xs[1]))
+	_, err = UnitFromLabel(d)
+	if err != nil {
+		return "", "", fmt.Errorf("invalid denominator unit: %s", d)
 	}
-	if !IsAreaUnit(d) {
-		return "", "", fmt.Errorf("invalid AreaMeasurement Unit: %s", d)
-	}
+
 	return n, d, nil
 }
 

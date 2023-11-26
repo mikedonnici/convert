@@ -13,7 +13,7 @@ func TestNewVolumeAreaMeasurementFromUnitString(t *testing.T) {
 	cases := map[string]struct {
 		v       float64
 		u       string
-		want    VolumePerAreaMeasurement
+		want    VolumeAreaRatioMeasurement
 		wantErr bool
 	}{
 		"1 l/ha":     {1, "l1ha-1", NewVolumeAreaMeasurement(1, Litre, Hectare), false},

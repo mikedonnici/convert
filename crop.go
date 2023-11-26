@@ -202,7 +202,7 @@ func convertCropRate(crop string, value float64, fromUnit, toUnit string) (float
 
 	// Mass -> Volume
 	if IsMassAreaRatioUnit(fromUnit) {
-		massRate, err := NewMassPerAreaMeasurementFromUnitString(value, fromUnit)
+		massRate, err := NewMassAreaRatioMeasureFromUnitString(value, fromUnit)
 		if err != nil {
 			return 0, fmt.Errorf("could not create MassAreaMeasurement Value: %w", err)
 		}
@@ -254,7 +254,7 @@ func convertCropRate(crop string, value float64, fromUnit, toUnit string) (float
 			return 0, fmt.Errorf("could not convert crop bales To MassMeasurement: %w", err)
 		}
 	}
-	massRate := NewMassPerAreaMeasurement(cropMass.Value, cropMass.Unit, fromAreaUnit)
+	massRate := NewMassAreaRatioMeasure(cropMass.Value, cropMass.Unit, fromAreaUnit)
 	toRate := massRate.To(toMassUnit, toAreaUnit)
 	return toRate.Value(), nil
 }

@@ -64,15 +64,15 @@ func volumeAreaRatioUnitByName(s string) (VolumeAreaRatioUnit, error) {
 	}, nil
 }
 
-// VolumePerAreaMeasurement represents a volume over AreaMeasurement Value.
-type VolumePerAreaMeasurement struct {
+// VolumeAreaRatioMeasurement represents a volume over AreaMeasurement Value.
+type VolumeAreaRatioMeasurement struct {
 	VolumeMeasurement
 	AreaUnit AreaUnit
 }
 
-// NewVolumeAreaMeasurement returns a VolumePerAreaMeasurement with the specified field values.
-func NewVolumeAreaMeasurement(v float64, vu VolumeUnit, au AreaUnit) VolumePerAreaMeasurement {
-	return VolumePerAreaMeasurement{
+// NewVolumeAreaMeasurement returns a VolumeAreaRatioMeasurement with the specified field values.
+func NewVolumeAreaMeasurement(v float64, vu VolumeUnit, au AreaUnit) VolumeAreaRatioMeasurement {
+	return VolumeAreaRatioMeasurement{
 		VolumeMeasurement: VolumeMeasurement{
 			Value: v,
 			Unit:  vu,
@@ -81,41 +81,41 @@ func NewVolumeAreaMeasurement(v float64, vu VolumeUnit, au AreaUnit) VolumePerAr
 	}
 }
 
-// NewVolumeAreaMeasurementFromUnitString returns a VolumePerAreaMeasurement initialised with a Value.
+// NewVolumeAreaMeasurementFromUnitString returns a VolumeAreaRatioMeasurement initialised with a Value.
 // It attempts To work out the correct AreaUnit from the complexUnit string.
-func NewVolumeAreaMeasurementFromUnitString(v float64, compoundUnit string) (VolumePerAreaMeasurement, error) {
+func NewVolumeAreaMeasurementFromUnitString(v float64, compoundUnit string) (VolumeAreaRatioMeasurement, error) {
 	n, d, err := splitCompoundUnit(compoundUnit)
 	if err != nil {
-		return VolumePerAreaMeasurement{}, err
+		return VolumeAreaRatioMeasurement{}, err
 	}
 	un, err := volumeUnitByName(n)
 	if err != nil {
-		return VolumePerAreaMeasurement{}, fmt.Errorf("numerator of compound unit %s (%s) is not a volume VolumeUnit", compoundUnit, n)
+		return VolumeAreaRatioMeasurement{}, fmt.Errorf("numerator of compound unit %s (%s) is not a volume VolumeUnit", compoundUnit, n)
 	}
 	ud, err := areaUnitByName(d)
 	if err != nil {
-		return VolumePerAreaMeasurement{}, fmt.Errorf("denominator of compound unit %s (%s) is not an AreaUnit", compoundUnit, d)
+		return VolumeAreaRatioMeasurement{}, fmt.Errorf("denominator of compound unit %s (%s) is not an AreaUnit", compoundUnit, d)
 	}
 	return NewVolumeAreaMeasurement(v, un, ud), nil
 }
 
-func (vr VolumePerAreaMeasurement) To(toVolumeUnit VolumeUnit, toAreaUnit AreaUnit) VolumePerAreaMeasurement {
+func (vr VolumeAreaRatioMeasurement) To(toVolumeUnit VolumeUnit, toAreaUnit AreaUnit) VolumeAreaRatioMeasurement {
 	toVolume := vr.VolumeMeasurement.To(toVolumeUnit)
 	toArea := AreaMeasurement{Value: 1, Unit: vr.AreaUnit}.To(toAreaUnit)
 	toVolume.Value = toVolume.Value / toArea.Value
-	return VolumePerAreaMeasurement{
+	return VolumeAreaRatioMeasurement{
 		VolumeMeasurement: toVolume,
 		AreaUnit:          toAreaUnit,
 	}
 }
 
-// Value returns the value of the VolumePerAreaMeasurement
-func (vr VolumePerAreaMeasurement) Value() float64 {
+// Value returns the value of the VolumeAreaRatioMeasurement
+func (vr VolumeAreaRatioMeasurement) Value() float64 {
 	return vr.VolumeMeasurement.Value
 }
 
-// Unit returns the unit of the VolumePerAreaMeasurement
-func (vr VolumePerAreaMeasurement) Unit() (string, error) {
+// Unit returns the unit of the VolumeAreaRatioMeasurement
+func (vr VolumeAreaRatioMeasurement) Unit() (string, error) {
 	return joinCompoundUnit(vr.VolumeMeasurement.Unit.String(), vr.AreaUnit.String())
 }
 
