@@ -65,7 +65,7 @@ func TestIsVolumeRateUnit(t *testing.T) {
 	}
 }
 
-func Test_splitCompoundUnit(t *testing.T) {
+func Test_SplitCompoundUnit(t *testing.T) {
 	t.Parallel()
 
 	cases := []struct {
@@ -116,7 +116,7 @@ func Test_splitCompoundUnit(t *testing.T) {
 		c := c
 		t.Run(fmt.Sprint(i), func(t *testing.T) {
 			t.Parallel()
-			gotNumerator, gotDenominator, err := splitCompoundUnit(c.arg)
+			gotNumerator, gotDenominator, err := SplitCompoundUnit(c.arg)
 			if c.wantError && err == nil {
 				t.Fatalf("splitCompoundUnit() err = nil, want error")
 			}
