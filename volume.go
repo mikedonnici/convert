@@ -179,7 +179,7 @@ var Hectolitre = VolumeUnit{
 	unit:       HectolitreStandard,
 	full:       "hectolitre",
 	fancy:      string(HectolitreStandard),
-	aliases:    []string{"hectolitres", "hectoliter", "hectoliters"},
+	aliases:    []string{"hectolitres", "hectoliter", "hectoliters", "100l", "100 litres", "100 liters", "100 litre", "100 liter"},
 	conversion: 100,
 }
 
