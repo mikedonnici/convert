@@ -75,7 +75,7 @@ func Test_volumeAreaRatioUnitByName(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			for _, arg := range c.argList {
-				gotUnit, err := volumeAreaRatioUnitByName(arg)
+				gotUnit, err := volumeAreaRatioUnitFromString(arg)
 				assert.Equal(t, c.wantErr, err != nil)
 				if !c.wantErr && err == nil {
 					assert.Equal(t, c.wantUnit, gotUnit)

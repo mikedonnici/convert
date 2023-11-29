@@ -88,7 +88,7 @@ func TestStandardUnit(t *testing.T) {
 
 	cases := map[string]struct {
 		arg  string
-		want any
+		want Unit
 	}{
 		"m2": {
 			arg:  "m2",
@@ -113,6 +113,13 @@ func TestStandardUnit(t *testing.T) {
 		"square meter": {
 			arg:  "square meter",
 			want: SquareMetre,
+		},
+		"grams/100L": {
+			arg: "grams/100L",
+			want: RatioUnit{
+				Numerator:   Gram,
+				Denominator: Hectolitre,
+			},
 		},
 	}
 

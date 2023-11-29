@@ -44,17 +44,17 @@ func (u VolumeAreaRatioUnit) String() string {
 	}.String()
 }
 
-// volumeAreaRatioUnitByName attempts to derive a VolumeAreaRatioUnit from a string.
-func volumeAreaRatioUnitByName(s string) (VolumeAreaRatioUnit, error) {
+// volumeAreaRatioUnitFromString attempts to derive a VolumeAreaRatioUnit from a string.
+func volumeAreaRatioUnitFromString(s string) (VolumeAreaRatioUnit, error) {
 	n, d, err := splitCompoundUnit(s)
 	if err != nil {
 		return VolumeAreaRatioUnit{}, err
 	}
-	un, err := volumeUnitByName(n)
+	un, err := volumeUnitFromString(n)
 	if err != nil {
 		return VolumeAreaRatioUnit{}, fmt.Errorf("numerator of compound unit %s (%s) is not a volume unit", s, n)
 	}
-	ud, err := areaUnitByName(d)
+	ud, err := areaUnitFromString(d)
 	if err != nil {
 		return VolumeAreaRatioUnit{}, fmt.Errorf("denominator of compound unit %s (%s) is not an area unit", s, d)
 	}
@@ -88,11 +88,11 @@ func NewVolumeAreaMeasurementFromUnitString(v float64, compoundUnit string) (Vol
 	if err != nil {
 		return VolumeAreaRatioMeasurement{}, err
 	}
-	un, err := volumeUnitByName(n)
+	un, err := volumeUnitFromString(n)
 	if err != nil {
 		return VolumeAreaRatioMeasurement{}, fmt.Errorf("numerator of compound unit %s (%s) is not a volume VolumeUnit", compoundUnit, n)
 	}
-	ud, err := areaUnitByName(d)
+	ud, err := areaUnitFromString(d)
 	if err != nil {
 		return VolumeAreaRatioMeasurement{}, fmt.Errorf("denominator of compound unit %s (%s) is not an AreaUnit", compoundUnit, d)
 	}
@@ -124,13 +124,13 @@ func (vr VolumeAreaRatioMeasurement) Unit() (string, error) {
 // 	n, d := splitCompoundUnit(s)
 //
 // 	// Numerator should be a volumeUnit
-// 	vu, err := volumeUnitByName(n)
+// 	vu, err := volumeUnitFromString(n)
 // 	if err != nil {
 // 		return VolumePerArea(""), fmt.Errorf("numerator of volume per area compound unit %s (%s) is not a volume unit", s, n)
 // 	}
 //
 // 	// denominator should be an area unit
-// 	au, err := areaUnitByName(d)
+// 	au, err := areaUnitFromString(d)
 // 	if err != nil {
 // 		return VolumePerArea(""), fmt.Errorf("denominator of volume per area compound unit %s (%s) is not an area unit", s, d)
 // 	}

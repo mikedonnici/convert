@@ -31,7 +31,7 @@ func Test_lineUnitByName(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			for _, arg := range c.argList {
-				gotUnit, err := lineUnitByName(arg)
+				gotUnit, err := lineUnitFromString(arg)
 				assert.Equal(t, c.wantErr, err != nil)
 				assert.Equal(t, c.wantUnit, gotUnit)
 			}

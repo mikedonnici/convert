@@ -25,31 +25,31 @@ func (u RatioUnit) String() string {
 
 // IsAreaUnit returns true if s is a valid area unit.
 func IsAreaUnit(s string) bool {
-	_, err := areaUnitByName(s)
+	_, err := areaUnitFromString(s)
 	return err == nil
 }
 
 // IsLineUnit returns true if the given string is a valid line unit.
 func IsLineUnit(s string) bool {
-	_, err := lineUnitByName(s)
+	_, err := lineUnitFromString(s)
 	return err == nil
 }
 
 // IsMassUnit returns true if s is a valid mass unit.
 func IsMassUnit(s string) bool {
-	_, err := massUnitByName(s)
+	_, err := massUnitFromString(s)
 	return err == nil
 }
 
 // IsVolumeUnit returns true if s is a valid volume unit.
 func IsVolumeUnit(s string) bool {
-	_, err := volumeUnitByName(s)
+	_, err := volumeUnitFromString(s)
 	return err == nil
 }
 
 // IsTimeUnit returns true if s is a valid time unit.
 func IsTimeUnit(s string) bool {
-	_, err := timeUnitByName(s)
+	_, err := timeUnitFromString(s)
 	return err == nil
 }
 
@@ -104,21 +104,23 @@ func IsDilutionRateWithVolumeNumerator(unit string) bool {
 func UnitFromLabel(label string) (Unit, error) {
 	switch {
 	case IsAreaUnit(label):
-		return areaUnitByName(label)
+		return areaUnitFromString(label)
 	case IsLineUnit(label):
-		return lineUnitByName(label)
+		return lineUnitFromString(label)
 	case IsMassUnit(label):
-		return massUnitByName(label)
+		return massUnitFromString(label)
 	case IsTimeUnit(label):
-		return timeUnitByName(label)
+		return timeUnitFromString(label)
 	case IsVolumeUnit(label):
-		return volumeUnitByName(label)
+		return volumeUnitFromString(label)
 	case IsMassAreaRatioUnit(label):
-		return massAreaRatioUnitByName(label)
+		return massAreaRatioUnitFromString(label)
 	case IsVolumeAreaRatioUnit(label):
-		return volumeAreaRatioUnitByName(label)
+		return volumeAreaRatioUnitFromString(label)
+	case IsDilutionRateUnit(label):
+		return dilutionRateUnitFromString(label)
 	default:
-		return nil, fmt.Errorf("unknown unit: %s", label)
+		return nil, fmt.Errorf("unhandled unit label: %s", label)
 	}
 }
 

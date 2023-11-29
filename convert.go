@@ -91,11 +91,11 @@ func convertAreaMeasurement(areaValue float64, fromUnit string, toUnit string) (
 			return 0, fmt.Errorf("could not split toUnit as compound Unit: %s", err)
 		}
 	}
-	from, err := areaUnitByName(fromUnit)
+	from, err := areaUnitFromString(fromUnit)
 	if err != nil {
 		return 0, fmt.Errorf("fromUnit %s is not an AreaUnit", fromUnit)
 	}
-	to, err := areaUnitByName(toUnit)
+	to, err := areaUnitFromString(toUnit)
 	if err != nil {
 		return 0, fmt.Errorf("toUnit %s is not an AreaUnit", toUnit)
 	}
@@ -111,11 +111,11 @@ func convertLineMeasurement(value float64, fromUnit, toUnit string) (float64, er
 	if (fromUnit == toUnit) || value == 0 {
 		return value, nil
 	}
-	from, err := lineUnitByName(fromUnit)
+	from, err := lineUnitFromString(fromUnit)
 	if err != nil {
 		return 0, fmt.Errorf("fromUnit %s is not a LineUnit", fromUnit)
 	}
-	to, err := lineUnitByName(toUnit)
+	to, err := lineUnitFromString(toUnit)
 	if err != nil {
 		return 0, fmt.Errorf("toUnit %s is not a LineUnit", toUnit)
 	}
@@ -147,11 +147,11 @@ func convertMassMeasurement(value float64, fromUnit, toUnit string) (float64, er
 			return 0, fmt.Errorf("could not split toUnit as compound Unit: %s", err)
 		}
 	}
-	from, err := massUnitByName(fromUnit)
+	from, err := massUnitFromString(fromUnit)
 	if err != nil {
 		return 0, fmt.Errorf("fromUnit %s is not a MassUnit", fromUnit)
 	}
-	to, err := massUnitByName(toUnit)
+	to, err := massUnitFromString(toUnit)
 	if err != nil {
 		return 0, fmt.Errorf("toUnit %s is not a MassUnit", toUnit)
 	}
@@ -183,11 +183,11 @@ func convertVolumeMeasurement(value float64, fromUnit, toUnit string) (float64, 
 			return 0, fmt.Errorf("could not split toUnit as compound Unit: %s", err)
 		}
 	}
-	from, err := volumeUnitByName(fromUnit)
+	from, err := volumeUnitFromString(fromUnit)
 	if err != nil {
 		return 0, fmt.Errorf("fromUnit %s is not a VolumeUnit", fromUnit)
 	}
-	to, err := volumeUnitByName(toUnit)
+	to, err := volumeUnitFromString(toUnit)
 	if err != nil {
 		return 0, fmt.Errorf("toUnit %s is not a VolumeUnit", toUnit)
 	}
@@ -206,19 +206,19 @@ func convertMassAreaMeasurement(value float64, fromUnit, toUnit string) (float64
 	if err != nil {
 		return 0, err
 	}
-	fromMassUnit, err := massUnitByName(units.fromNumerator)
+	fromMassUnit, err := massUnitFromString(units.fromNumerator)
 	if err != nil {
 		return 0, fmt.Errorf("fromUnit %s does not have a mass numerator", fromUnit)
 	}
-	fromAreaUnit, err := areaUnitByName(units.fromDenominator)
+	fromAreaUnit, err := areaUnitFromString(units.fromDenominator)
 	if err != nil {
 		return 0, fmt.Errorf("fromUnit %s does not have an area denominator", fromUnit)
 	}
-	toMassUnit, err := massUnitByName(units.toNumerator)
+	toMassUnit, err := massUnitFromString(units.toNumerator)
 	if err != nil {
 		return 0, fmt.Errorf("toUnit %s does not have a mass numerator", toUnit)
 	}
-	toAreaUnit, err := areaUnitByName(units.toDenominator)
+	toAreaUnit, err := areaUnitFromString(units.toDenominator)
 	if err != nil {
 		return 0, fmt.Errorf("toUnit %s does not have an area denominator", toUnit)
 	}
@@ -235,19 +235,19 @@ func convertVolumeAreaMeasurement(value float64, fromUnit, toUnit string) (float
 	if err != nil {
 		return 0, err
 	}
-	fromVolumeUnit, err := volumeUnitByName(units.fromNumerator)
+	fromVolumeUnit, err := volumeUnitFromString(units.fromNumerator)
 	if err != nil {
 		return 0, fmt.Errorf("fromUnit %s does not have a volume numerator", fromUnit)
 	}
-	fromAreaUnit, err := areaUnitByName(units.fromDenominator)
+	fromAreaUnit, err := areaUnitFromString(units.fromDenominator)
 	if err != nil {
 		return 0, fmt.Errorf("fromUnit %s denominator is not an AreaUnit", fromUnit)
 	}
-	toVolumeUnit, err := volumeUnitByName(units.toNumerator)
+	toVolumeUnit, err := volumeUnitFromString(units.toNumerator)
 	if err != nil {
 		return 0, fmt.Errorf("toUnit %s does not have a volume numerator", toUnit)
 	}
-	toAreaUnit, err := areaUnitByName(units.toDenominator)
+	toAreaUnit, err := areaUnitFromString(units.toDenominator)
 	if err != nil {
 		return 0, fmt.Errorf("toUnit %s denominator is not an AreaUnit", toUnit)
 	}

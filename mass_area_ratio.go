@@ -40,17 +40,17 @@ func (u MassAreaRatioUnit) String() string {
 	}.String()
 }
 
-// massAreaRatioUnitByName attempts to derive a MassAreaRatioUnit from a string.
-func massAreaRatioUnitByName(s string) (MassAreaRatioUnit, error) {
+// massAreaRatioUnitFromString attempts to derive a MassAreaRatioUnit from a string.
+func massAreaRatioUnitFromString(s string) (MassAreaRatioUnit, error) {
 	n, d, err := splitCompoundUnit(s)
 	if err != nil {
 		return MassAreaRatioUnit{}, err
 	}
-	un, err := massUnitByName(n)
+	un, err := massUnitFromString(n)
 	if err != nil {
 		return MassAreaRatioUnit{}, fmt.Errorf("numerator of compound unit %s (%s) is not a mass unit", s, n)
 	}
-	ud, err := areaUnitByName(d)
+	ud, err := areaUnitFromString(d)
 	if err != nil {
 		return MassAreaRatioUnit{}, fmt.Errorf("denominator of compound unit %s (%s) is not an area unit", s, d)
 	}
@@ -83,11 +83,11 @@ func NewMassAreaRatioMeasureFromUnitString(v float64, compoundUnit string) (Mass
 	if err != nil {
 		return MassAreaRatioMeasure{}, err
 	}
-	un, err := massUnitByName(n)
+	un, err := massUnitFromString(n)
 	if err != nil {
 		return MassAreaRatioMeasure{}, fmt.Errorf("numerator of compound unit %s (%s) is not a MassUnit", compoundUnit, n)
 	}
-	ud, err := areaUnitByName(d)
+	ud, err := areaUnitFromString(d)
 	if err != nil {
 		return MassAreaRatioMeasure{}, fmt.Errorf("denominator of compound unit %s (%s) is not an AreaUnit", compoundUnit, d)
 	}

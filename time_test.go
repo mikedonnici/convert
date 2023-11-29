@@ -61,7 +61,7 @@ func Test_timeUnitByName(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			for _, arg := range c.argList {
-				gotUnit, err := timeUnitByName(arg)
+				gotUnit, err := timeUnitFromString(arg)
 				assert.Equal(t, c.wantErr, err != nil)
 				assert.Equal(t, c.wantUnit, gotUnit)
 			}

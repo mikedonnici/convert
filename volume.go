@@ -295,8 +295,8 @@ var Bale = VolumeUnit{
 	conversion: 480,
 }
 
-// volumeUnitByName returns the first volume unit that is a case-sensitive match for s, or an error if no match is found.
-func volumeUnitByName(s string) (VolumeUnit, error) {
+// volumeUnitFromString returns the first volume unit that is a case-sensitive match for s, or an error if no match is found.
+func volumeUnitFromString(s string) (VolumeUnit, error) {
 	for _, u := range volumeUnits {
 		if u.Matches(s) {
 			return u, nil

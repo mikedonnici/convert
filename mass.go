@@ -169,8 +169,8 @@ var Ton = MassUnit{
 	conversion: 907185,
 }
 
-// massUnitByName returns the first mass unit that matches s.
-func massUnitByName(s string) (MassUnit, error) {
+// massUnitFromString returns the first mass unit that matches s.
+func massUnitFromString(s string) (MassUnit, error) {
 	for _, u := range massUnits {
 		if u.Matches(s) {
 			return u, nil

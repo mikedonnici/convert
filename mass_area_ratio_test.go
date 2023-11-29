@@ -148,7 +148,7 @@ func Test_massRateUnitByName(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			for _, arg := range c.argList {
-				gotUnit, err := massAreaRatioUnitByName(arg)
+				gotUnit, err := massAreaRatioUnitFromString(arg)
 				assert.Equal(t, c.wantErr, err != nil)
 				assert.Equal(t, c.wantUnit, gotUnit)
 			}

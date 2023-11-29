@@ -141,8 +141,8 @@ var Year = TimeUnit{
 	conversion: 31536000,
 }
 
-// timeUnitByName returns the first time unit that matches s.
-func timeUnitByName(s string) (TimeUnit, error) {
+// timeUnitFromString returns the first time unit that matches s.
+func timeUnitFromString(s string) (TimeUnit, error) {
 	for _, u := range timeUnits {
 		if u.Matches(s) {
 			return u, nil

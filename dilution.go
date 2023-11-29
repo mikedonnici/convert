@@ -49,7 +49,7 @@ func (d *DilutedProductApplication) ApplicationRate() (float64, string, error) {
 func (d *DilutedProductApplication) UnitCheck() error {
 	var err error
 
-	d.areaUnit, err = areaUnitByName(d.AreaUnitLabel)
+	d.areaUnit, err = areaUnitFromString(d.AreaUnitLabel)
 	if err != nil {
 		return fmt.Errorf("invalid area unit: %s", d.AreaUnitLabel)
 	}
@@ -88,4 +88,24 @@ func (d *DilutedProductApplication) UnitCheck() error {
 	}
 
 	return nil
+}
+
+// dilutionRateUnitFromString attempts to derive a RatioUnit from a string.
+func dilutionRateUnitFromString(s string) (RatioUnit, error) {
+	n, d, err := splitCompoundUnit(s)
+	if err != nil {
+		return RatioUnit{}, err
+	}
+	un, err := UnitFromLabel(n)
+	if err != nil {
+		return RatioUnit{}, fmt.Errorf("failed to derive unit from %s, ie numerator of %s", n, s)
+	}
+	ud, err := UnitFromLabel(d)
+	if err != nil {
+		return RatioUnit{}, fmt.Errorf("failed to derive unit from %s, ie denominator of %s", d, s)
+	}
+	return RatioUnit{
+		Numerator:   un,
+		Denominator: ud,
+	}, nil
 }

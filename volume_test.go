@@ -21,7 +21,7 @@ func Test_volumeUnitByName(t *testing.T) {
 			wantErr:  false,
 		},
 		"hl": {
-			argList:  []string{"hl", "hectolitre", "100l", "100 litres"},
+			argList:  []string{"hl", "hectolitre", "100l", "100L", "100 litres"},
 			wantUnit: Hectolitre,
 			wantErr:  false,
 		},
@@ -37,7 +37,7 @@ func Test_volumeUnitByName(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			for _, arg := range c.argList {
-				gotUnit, err := volumeUnitByName(arg)
+				gotUnit, err := volumeUnitFromString(arg)
 				assert.Equal(t, c.wantErr, err != nil)
 				assert.Equal(t, c.wantUnit, gotUnit)
 			}

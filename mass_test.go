@@ -36,7 +36,7 @@ func Test_massUnitByName(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			for _, arg := range c.argList {
-				gotUnit, gotErr := massUnitByName(arg)
+				gotUnit, gotErr := massUnitFromString(arg)
 				assert.Equal(t, c.wantErr, gotErr != nil)
 				assert.Equal(t, c.wantUnit, gotUnit)
 			}

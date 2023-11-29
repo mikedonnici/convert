@@ -151,8 +151,8 @@ var Mile = LineUnit{
 	conversion: 1609.34,
 }
 
-// lineUnitByName returns the first lineUnit that matches the search string, or nil if no match is found.
-func lineUnitByName(s string) (LineUnit, error) {
+// lineUnitFromString returns the first lineUnit that matches the search string, or nil if no match is found.
+func lineUnitFromString(s string) (LineUnit, error) {
 	for _, u := range lineUnits {
 		if u.Matches(s) {
 			return u, nil

@@ -184,8 +184,8 @@ var Acre = AreaUnit{
 	conversion: 4046.86,
 }
 
-// areaUnitByName returns the first areaUnit that matches the search string, or nil if no match is found.
-func areaUnitByName(s string) (AreaUnit, error) {
+// areaUnitFromString returns the first areaUnit that matches the search string, or nil if no match is found.
+func areaUnitFromString(s string) (AreaUnit, error) {
 	for _, u := range areaUnits {
 		if u.Matches(s) {
 			return u, nil

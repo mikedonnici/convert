@@ -191,11 +191,11 @@ func convertCropRate(crop string, value float64, fromUnit, toUnit string) (float
 		return 0, fmt.Errorf("could not determine numerator in toCompoundUnit: %w", err)
 	}
 
-	fromAreaUnit, err := areaUnitByName(fromDenominator)
+	fromAreaUnit, err := areaUnitFromString(fromDenominator)
 	if err != nil {
 		return 0, fmt.Errorf("fromUnit %s denominator is not an AreaUnit: %w", fromUnit, err)
 	}
-	toAreaUnit, err := areaUnitByName(toDenominator)
+	toAreaUnit, err := areaUnitFromString(toDenominator)
 	if err != nil {
 		return 0, fmt.Errorf("toUnit %s denominator is not an AreaUnit: %w", toUnit, err)
 	}
@@ -220,7 +220,7 @@ func convertCropRate(crop string, value float64, fromUnit, toUnit string) (float
 			}
 		}
 
-		toVolumeUnit, err := volumeUnitByName(toNumerator)
+		toVolumeUnit, err := volumeUnitFromString(toNumerator)
 		if err != nil {
 			return 0, fmt.Errorf("toUnit %s numerator is not a VolumeUnit: %w", toUnit, err)
 		}
@@ -234,7 +234,7 @@ func convertCropRate(crop string, value float64, fromUnit, toUnit string) (float
 	if err != nil {
 		return 0, fmt.Errorf("could not create VolumeAreaMeasurement Value: %w", err)
 	}
-	toMassUnit, err := massUnitByName(toNumerator)
+	toMassUnit, err := massUnitFromString(toNumerator)
 	if err != nil {
 		return 0, fmt.Errorf("toUnit %s numerator is not a MassUnit: %w", toUnit, err)
 	}
