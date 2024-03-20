@@ -1,10 +1,10 @@
 module github.com/mikedonnici/convert
 
-go 1.21.3
+go 1.22
 
 require (
 	github.com/stretchr/testify v1.8.4
-	github.com/twpayne/go-geom v1.5.3
+	github.com/twpayne/go-geom v1.5.4
 )
 
 require (
