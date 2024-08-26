@@ -30,9 +30,9 @@ func NewGeometry(gType GeometryType) *Geometry {
 
 // WithCoords adds the coordinates To the Geometry Value.
 // If xy is true the coordinate pairs are designated as x,y (or lon, lat)
-// which is generally how GeoJSOn and WKT has them.
+// which is generally how GeoJSON and WKT has them.
 func (g *Geometry) WithCoords(coords [][]float64, xy bool) *Geometry {
-	if len(coords) == 0 {
+	if coords == nil {
 		return g
 	}
 	var poly []geom.Coord

@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/mikedonnici/convert"
+	"github.com/regrowag/ses/go/pkg/convert"
 )
 
 func TestConvert(t *testing.T) {

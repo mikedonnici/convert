@@ -1,4 +1,3 @@
-// Package unit provides functions for handling units of measurement and conversions
 package convert
 
 import (
